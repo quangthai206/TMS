@@ -1,0 +1,11 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Here is teacher home page</h2>
+@using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" value="Đăng xuất" class="btn btn-danger" />
+}
+
