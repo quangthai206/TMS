@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace CNPM.Controllers
 {
+    [Authorize]
     public class TeacherController : Controller
     {
         // GET: Teacher

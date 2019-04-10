@@ -72,7 +72,8 @@ namespace CNPM.Controllers
                 var user = UserManager.Find(request.Email, request.Password);
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "Invalid username or password");
+                    //ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");
+                    ViewBag.Valid = "Invalid";
                     return View(request);
                 }
 
@@ -103,11 +104,11 @@ namespace CNPM.Controllers
                         return RedirectToAction("SendCode", new { ReturnUrl = request.returnUrl, RememberMe = request.RememberMe });
                     case SignInStatus.Failure:
                     default:
-                        ModelState.AddModelError("", "Invalid username or password");
+                        ModelState.AddModelError("", "Sai tên đăng nhập hoặc mật khẩu");
                         return View(request);
                 }
             }
-            return View();
+            return View(request);
         }
 
         [HttpPost]
@@ -116,7 +117,7 @@ namespace CNPM.Controllers
         public ActionResult LogOut()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("About", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         private IAuthenticationManager AuthenticationManager

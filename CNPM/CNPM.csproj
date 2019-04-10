@@ -236,6 +236,17 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dark2.css" />
+    <Content Include="Content\dark1.css" />
+    <Content Include="Content\img\bg-4.jpg" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\light2.css" />
+    <Content Include="Content\light1.css" />
+    <Content Include="Content\login-v1.default.css" />
+    <Content Include="Content\style.bundle.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\vendors.bundle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -250,6 +261,7 @@
       <DependentUpon>TMSModel.edmx</DependentUpon>
       <LastGenOutput>TMSModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\app.bundle.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\TMSModel.edmx">
@@ -259,6 +271,9 @@
     <Content Include="Models\TMSModel.edmx.diagram">
       <DependentUpon>TMSModel.edmx</DependentUpon>
     </Content>
+    <Content Include="libman.json" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -269,7 +284,12 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\login-v1.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\scripts.bundle.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\vendors.bundle.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

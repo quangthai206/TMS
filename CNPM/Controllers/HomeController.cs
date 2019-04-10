@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace CNPM.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()

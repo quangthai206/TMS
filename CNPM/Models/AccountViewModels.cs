@@ -12,12 +12,12 @@ namespace CNPM.Models
 
     public class LoginViewModel
     {
-        [Required]
         [Display(Name = "Email")]
-        [EmailAddress]
+        [Required(ErrorMessage = "Địa chỉ email là bắt buộc")]
+        [EmailAddress(ErrorMessage = "Địa chỉ email không hợp lệ")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
