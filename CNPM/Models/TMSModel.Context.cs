@@ -38,7 +38,6 @@ namespace CNPM.Models
         public virtual DbSet<student_course> student_course { get; set; }
         public virtual DbSet<subject> subjects { get; set; }
         public virtual DbSet<submission> submissions { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<task> tasks { get; set; }
         public virtual DbSet<teacher> teachers { get; set; }
         public virtual DbSet<topic> topics { get; set; }

@@ -53,6 +53,7 @@ namespace CNPM.Controllers
         #endregion
 
         public ActionResult Login(string returnUrl)
+
         {
             return View(new LoginViewModel
             {
@@ -94,8 +95,8 @@ namespace CNPM.Controllers
                 {
                     case SignInStatus.Success:
                         
-                            if (role == "teacher") return RedirectToAction("Index", "Teacher", new { area = "" });
-                            else return RedirectToAction("Index", "Student", new { area = "" });
+                            if (role == "teacher") return RedirectToAction("Index", "Teacher");
+                            else return RedirectToAction("Index", "Student");
                            
                         //return RedirectToLocal(request.returnUrl);
                     case SignInStatus.LockedOut:

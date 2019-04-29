@@ -1,0 +1,78 @@
+﻿@model CNPM.Models.TopicViewModel
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("EditTopic", "Teacher", FormMethod.Post, new { onsubmit = "return SubmitForm(this)", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.course_id)
+    <div class="form-group">
+        @Html.LabelFor(model => model.name)
+        @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.description)
+        @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.description)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.file_detail)<br>
+        @Html.TextBoxFor(m => m.file_detail, new { type = "file", @class = "hidden", name = "file_detail_file" })
+        <button type="button" id="btn-file_detail">Chọn tệp</button>
+        <span class="span-file-text-helper" id="span-file_detail">
+            @if (string.IsNullOrEmpty(Model.file_detail))
+            {
+                <span class="span-file-text-helper-x span-file-text-helper-x-detail">×</span>
+                <span class="span-file-name-detail">Không có tệp nào được chọn</span>
+            }
+            else
+            {
+                <span class="span-file-text-helper-x span-file-text-helper-x-detail">×</span>
+                <span class="span-file-name-detail">@Model.file_detail</span>
+            }
+
+        </span>
+
+        @Html.ValidationMessageFor(m => m.file_detail)
+
+    </div>
+    <hr />
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+        <input type="reset" value="Reset" class="btn" />
+    </div>
+}
+
+    <script>
+        $(document).ready(function () {
+            $("button#btn-file_detail").click(function () {
+                $("input#file_detail").click();
+            });
+
+            $("input#file_detail").on("change", function (e) {
+                //var $spanRoot = $("span#span-file_question");
+                //if ($spanRoot) {
+                //    var $span = $spanRoot.find('span');
+                //    $spanRoot.html($span[0].outerHTML + e.target.files[0].name);
+                //} else {
+                //    //$("p").not($("#selected")[0]);
+                //}              
+                var $spanHelperDetail = $('.span-file-text-helper-x-detail');
+                var $spanFileNameDetail = $('.span-file-name-detail');
+                if ($spanFileNameDetail && $spanHelperDetail) {
+                    $spanHelperDetail.text('×');
+                    $spanFileNameDetail.text(e.target.files[0].name);
+                }
+            });
+            $("span#span-file_detail > .span-file-text-helper-x-detail").click(function () {
+                var $spanHelperDetail = $('.span-file-text-helper-x-detail');
+                var $spanFileNameDetail = $('.span-file-name-detail');
+                if ($spanFileNameDetail && $spanHelperDetail) {
+                    $spanHelperDetail.text('');
+                    $spanFileNameDetail.text('Không có tệp nào được chọn.');
+                }
+            })
+        });
+    </script>

@@ -23,7 +23,6 @@ namespace CNPM.Models
     
         public int user_id { get; set; }
         public string code { get; set; }
-        public int course_id { get; set; }
         public Nullable<System.DateTime> dataob { get; set; }
         public Nullable<int> group_id { get; set; }
         public System.DateTime create_at { get; set; }
