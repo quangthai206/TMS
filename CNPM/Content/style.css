@@ -53,3 +53,7 @@ span.span-file-text-helper {
         .breadcrumb > li + li:before {
             content: '>\00a0';
         }
+
+    .breadcrumb > .active {
+        color: #777;
+    }

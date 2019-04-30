@@ -72,6 +72,9 @@ namespace CNPM.Controllers
 
         public ActionResult Course(int id)
         {
+            var c = db.courses.FirstOrDefault(m => m.id == id);
+            ViewBag.CourseCode = c.code;
+            ViewBag.CourseName = c.subject.name;
             ViewBag.CourseID = id;
             return View();
         }
@@ -93,6 +96,9 @@ namespace CNPM.Controllers
 
         public ActionResult ManageTopic(int courseID)
         {
+            var c = db.courses.FirstOrDefault(m => m.id == courseID);
+            ViewBag.CourseCode = c.code;
+            ViewBag.CourseName = c.subject.name;
             ViewBag.courseID = courseID;
             return View();
         }
@@ -163,7 +169,7 @@ namespace CNPM.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditTopic(TopicViewModel topic)
+        public ActionResult EditTopic(TopicViewModel topic, string check)
         {
             if(ModelState.IsValid)
             {
@@ -174,7 +180,7 @@ namespace CNPM.Controllers
                 var files = Request.Files;
                 if (files["file_detail"] != null && !string.IsNullOrEmpty(files["file_detail"].FileName))
                     old_topic.file_detail = SaveFile(files["file_detail"]);
-                else
+                if(check == "Không có tệp nào được chọn")
                 {
                     old_topic.file_detail = null;
                 }

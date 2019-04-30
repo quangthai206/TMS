@@ -17,6 +17,7 @@
 
     <!-- Custom styles for this template-->
     <link href="~/Content/sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/Content/toastr.min.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
@@ -27,7 +28,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul style="background-color: #4e73df;background-image: -webkit-gradient(linear, left top, left bottom, color-stop(10%, #4e73df), to(#224abe));background-image: linear-gradient(180deg,#2b3d67 10%,#698eb7 100%);background-size: cover" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index","Teacher")">
@@ -144,7 +145,7 @@
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
             @RenderBody()
-            
+
             <!-- End of Main Content -->
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
@@ -209,6 +210,9 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
