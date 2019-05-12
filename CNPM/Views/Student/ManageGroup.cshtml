@@ -1,6 +1,6 @@
-﻿@model IEnumerable<CNPM.Models.CourseViewModel>
+﻿@model CNPM.Models.ManageGroupVM
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "ManageGroup";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 
@@ -15,6 +15,11 @@
             <i class="fa fa-bars"></i>
         </button>
 
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Student" )"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li title="@ViewBag.CourseName"><a href="@Url.Action("Course","Student", new { id = ViewBag.courseID })">@ViewBag.CourseCode</a></li>
+            <li class="active">Nhóm của tôi</li>
+        </ol>
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -178,66 +183,105 @@
     </nav>
     <!-- End of Topbar -->
     <div class="container-fluid">
-        @if (Model.Count() == 0)
+        @if (Model == null)
         {
-            <div>
-                <div style="text-align: center; color: rgba(0,0,0,0.87);font-size: 2rem;font-weight: 500;line-height: 2.8rem; margin-bottom: .8rem;">Bạn không có khóa học nào cần quản lý</div>
-                <div style="text-align: center">Tại đây, bạn sẽ tìm thấy tất cả khóa học mà bạn đang quản lý</div>
-            </div>
+            <h1>Hiện tại bạn chưa tham gia nhóm đề tài nào</h1>
+            <h3>Bấm vào <a href="@Url.Action("AllTopics","Student", new { courseID = ViewBag.courseID})">đây</a> để đăng ký đề tài</h3>
         }
         else
         {
             <div class="row">
-                @for (int i = 0; i < Model.Count(); i++)
-                {
-                    var course = Model.ElementAt(i);
-                    var class1 = "";
-                    var class2 = "";
-                    int x = i % 4;
-                    if (x == 0)
+                <label class="col-sm-3 control-label">
+                    <b>Tên đề tài</b>
+                </label>
+                <p class="col-sm-9">
+                    @Model.topic_name
+                </p>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 control-label">
+                    <b>Mô tả</b>
+                </label>
+                <p class="col-sm-9">
+                    @Model.description
+                </p>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 control-label">
+                    <b>File chi tiết</b>
+                </label>
+                <p class="col-sm-9">
+                    @if (Model.file_detail == null)
                     {
-                        class1 = "border-left-primary";
-                        class2 = "text-primary";
-                    }
-                    else if (x == 1)
-                    {
-                        class1 = "border-left-info";
-                        class2 = "text-info";
-                    }
-                    else if (x == 2)
-                    {
-                        class1 = "border-left-warning";
-                        class2 = "text-warning";
+                        <span>Không</span>
                     }
                     else
                     {
-                        class1 = "border-left-success";
-                        class2 = "text-success";
+                        <a href="@Url.Action("Detail", "Utils", null, Request.Url.Scheme)?file=@Model.file_detail" target="_blank">@Model.file_detail</a>
                     }
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card @class1 shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold @class2 text-uppercase mb-1">@course.subject_name</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">@course.code</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="@Url.Action("Course","Student", new { id = course.id})">
-                                            <i class="fas fa-sign-in-alt fa-2x text-gray-300"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+                </p>
             </div>
+            <hr />
+            <div class="row">
+                <label class="col-sm-3 control-label">
+                    <b>Tên nhóm</b>
+                </label>
+                <p class="col-sm-9">
+                    @Model.group_name
+                </p>
+            </div>
+            <div class="row">
+                <label class="col-sm-3 control-label">
+                    <b>Thành viên</b>
+                </label>
+                <p class="col-sm-9">
+                    @foreach (var item in Model.members)
+                    {
+                        <span>@item</span> <br />
+                    }
+                </p>
+            </div>
+            <hr />
+            using (Html.BeginForm("CancelTopic", "Student", new { courseID = ViewBag.courseID }, FormMethod.Post, new { id = "ExitGroupForm" }))
+            {
+                @Html.AntiForgeryToken()
+            }
+            <button class="btn btn-danger btn-icon-split" id="exitGroup">
+                <span class="icon text-white-50">
+                    <i class="fas fa-arrow-right"></i>
+                </span>
+                <span class="text">Rời nhóm</span>
+            </button>
         }
     </div>
 </div>
 
 
-
-
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            document.getElementById("exitGroup").onclick = function () {
+                bootbox.confirm({
+                    title: "Rời nhóm",
+                    message: "Bạn có chắc chắn muốn rời khỏi nhóm này không?",
+                    buttons: {
+                        confirm: {
+                            label: 'Đồng ý',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Hủy',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            document.getElementById("ExitGroupForm").submit();
+                        }
+                    }
+                });
+            };
+        });
+    </script>
+}
 

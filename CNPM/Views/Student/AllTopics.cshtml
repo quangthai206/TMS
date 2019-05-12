@@ -1,7 +1,12 @@
-﻿@model IEnumerable<CNPM.Models.CourseViewModel>
+﻿@model IEnumerable<CNPM.Models.TopicViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "AllTopics";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+@{
+    var aId = new List<String>();
+    var divId = new List<String>();
 }
 
 <!-- Main Content -->
@@ -15,6 +20,11 @@
             <i class="fa fa-bars"></i>
         </button>
 
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Student" )"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li title="@ViewBag.CourseName"><a href="@Url.Action("Course","Student", new { id = ViewBag.courseID })">@ViewBag.CourseCode</a></li>
+            <li class="active">Đăng ký đề tài</li>
+        </ol>
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -178,66 +188,192 @@
     </nav>
     <!-- End of Topbar -->
     <div class="container-fluid">
-        @if (Model.Count() == 0)
-        {
-            <div>
-                <div style="text-align: center; color: rgba(0,0,0,0.87);font-size: 2rem;font-weight: 500;line-height: 2.8rem; margin-bottom: .8rem;">Bạn không có khóa học nào cần quản lý</div>
-                <div style="text-align: center">Tại đây, bạn sẽ tìm thấy tất cả khóa học mà bạn đang quản lý</div>
-            </div>
-        }
-        else
-        {
-            <div class="row">
-                @for (int i = 0; i < Model.Count(); i++)
+        <div id="your_topic" style="text-align: center;margin-bottom: 20px;color: white;font-weight: bold;font-size: 20px;display: none;">
+            <span style="background-color: #e3e357;padding: 8px;border-radius: 20px;">
+                Đề tài của bạn: @ViewBag.topic_name
+            </span>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                @for (int i = Model.Count() / 2; i < Model.Count(); i++)
                 {
-                    var course = Model.ElementAt(i);
-                    var class1 = "";
-                    var class2 = "";
-                    int x = i % 4;
-                    if (x == 0)
-                    {
-                        class1 = "border-left-primary";
-                        class2 = "text-primary";
-                    }
-                    else if (x == 1)
-                    {
-                        class1 = "border-left-info";
-                        class2 = "text-info";
-                    }
-                    else if (x == 2)
-                    {
-                        class1 = "border-left-warning";
-                        class2 = "text-warning";
-                    }
-                    else
-                    {
-                        class1 = "border-left-success";
-                        class2 = "text-success";
-                    }
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card @class1 shadow h-100 py-2">
+                    var currentTopic = Model.ElementAt(i);
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#topic_@currentTopic.id" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="topic_@currentTopic.id">
+                            <h6 class="m-0 font-weight-bold text-primary">@currentTopic.name</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="topic_@currentTopic.id" style="">
                             <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold @class2 text-uppercase mb-1">@course.subject_name</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">@course.code</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="@Url.Action("Course","Student", new { id = course.id})">
-                                            <i class="fas fa-sign-in-alt fa-2x text-gray-300"></i>
-                                        </a>
-                                    </div>
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <b>Mô tả</b>
+                                    </label>
+                                    <p class="col-sm-9">
+                                        @currentTopic.description
+                                    </p>
                                 </div>
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <b>File chi tiết</b>
+                                    </label>
+                                    <p class="col-sm-9">
+                                        @if (currentTopic.file_detail == null)
+                                        {
+                                            <span>Không</span>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Detail", "Utils", null, Request.Url.Scheme)?file=@currentTopic.file_detail" target="_blank">@currentTopic.file_detail</a>
+                                        }
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <b>Số nhóm đăng ký</b>
+                                    </label>
+                                    <p class="col-sm-9">
+                                        @currentTopic.totalGroup<span>/3</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="div_@currentTopic.id">
+                                <a href="@Url.Action("RegisterTopic","Student", new { id = currentTopic.id})" class="btn btn-info btn-icon-split" style="width: 100%;" id="register_@currentTopic.id">
+                                    <span class="text">Đăng ký</span>
+                                </a>
                             </div>
                         </div>
                     </div>
+                    if (ViewBag.topic_id != null)
+                    {
+                        aId.Add("#register_" + currentTopic.id);
+                        divId.Add("#div_" + currentTopic.id);
+                    }
                 }
             </div>
+
+            <div class="col-lg-6">
+                @for (int j = 0; j < Model.Count() / 2; j++)
+                {
+                    var currentTopic = Model.ElementAt(j);
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#topic_@currentTopic.id" class="d-block card-header py-3 collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="topic_@currentTopic.id">
+                            <h6 class="m-0 font-weight-bold text-primary">@currentTopic.name</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse" id="topic_@currentTopic.id" style="">
+                            <div class="card-body">
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <b>Mô tả</b>
+                                    </label>
+                                    <p class="col-sm-9">
+                                        @currentTopic.description
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <b>File chi tiết</b>
+                                    </label>
+                                    <p class="col-sm-9">
+                                        @if (currentTopic.file_detail == null)
+                                        {
+                                            <span>Không</span>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Detail", "Utils", null, Request.Url.Scheme)?file=@currentTopic.file_detail" target="_blank">@currentTopic.file_detail</a>
+                                        }
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <label class="col-sm-3 control-label">
+                                        <b>Số nhóm đăng ký</b>
+                                    </label>
+                                    <p class="col-sm-9">
+                                        @currentTopic.totalGroup<span>/3</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div id="div_@currentTopic.id">
+                                <a href="@Url.Action("RegisterTopic","Student", new { id = currentTopic.id})" class="btn btn-info btn-icon-split" style="width: 100%;" id="register_@currentTopic.id">
+                                    <span class="text">Đăng ký</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    if (ViewBag.topic_id != null)
+                    {
+                        aId.Add("#register_" + currentTopic.id);
+                        divId.Add("#div_" + currentTopic.id);
+                    }
+                }
+            </div>
+        </div>
+        @using (Html.BeginForm("CancelTopic", "Student",new { courseID = ViewBag.courseID }, FormMethod.Post, new { id = "CancelTopicForm" }))
+        {
+            @Html.AntiForgeryToken()
         }
     </div>
 </div>
 
+@{ 
+    var check_topic = 0;
+    if(ViewBag.topic_id != null)
+    {
+        check_topic = 1;
+    }
+}
 
 
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var arrA = JSON.parse('@Html.Raw(Json.Encode(aId))');
+        var arrDiv = JSON.parse('@Html.Raw(Json.Encode(divId))');
+        arrA.forEach(function(element) {
+            $(element).css("pointer-events", "none");
+        });
+        arrDiv.forEach(function (element) {
+            $(element).css("cursor", "not-allowed");
+        });
 
+        if (@check_topic == 1) {
+            var elem = document.querySelector('#your_topic');
+
+            elem.style.display = 'block';
+
+            $("#register_@ViewBag.topic_id").css("pointer-events", "auto");
+            $("#div_@ViewBag.topic_id").css("cursor", "auto");
+            $("#div_@ViewBag.topic_id span").text('Hủy đăng ký');
+            $('#register_@ViewBag.topic_id').click(function (e) {
+                e.preventDefault();
+                bootbox.confirm({
+                    title: "Hủy đề tài",
+                    message: "Bạn có chắc chắn muốn hủy đăng ký đề tài này không?",
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> Hủy bỏ'
+                        },
+                        confirm: {
+                            label: '<i class="fa fa-check"></i> Đồng ý'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            document.getElementById("CancelTopicForm").submit();
+                        }
+                    }
+                });
+            });
+            $("#register_@ViewBag.topic_id").removeClass('btn-info').addClass('btn-danger');
+
+        }
+        });
+
+
+    </script>
+}
 

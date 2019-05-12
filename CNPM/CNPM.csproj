@@ -188,19 +188,28 @@
     <Compile Include="Models\group.cs">
       <DependentUpon>TMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GroupViewModel.cs" />
     <Compile Include="Models\IdentityConfig.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageGroupVM.cs" />
     <Compile Include="Models\MyUserStore.cs" />
+    <Compile Include="Models\RegisterTopicVM.cs" />
     <Compile Include="Models\student.cs">
       <DependentUpon>TMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\student_course.cs">
       <DependentUpon>TMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\student_group.cs">
+      <DependentUpon>TMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\subject.cs">
       <DependentUpon>TMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\submission.cs">
+      <DependentUpon>TMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>TMSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\task.cs">
@@ -2126,6 +2135,13 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_StudentLayout.cshtml" />
+    <Content Include="Views\Teacher\GetCourseMenu.cshtml" />
+    <Content Include="Views\Student\GetCourseMenu.cshtml" />
+    <Content Include="Views\Student\Course.cshtml" />
+    <Content Include="Views\Student\ManageGroup.cshtml" />
+    <Content Include="Views\Student\AllTopics.cshtml" />
+    <Content Include="Views\Student\RegisterTopic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

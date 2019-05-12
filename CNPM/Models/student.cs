@@ -18,19 +18,18 @@ namespace CNPM.Models
         public student()
         {
             this.student_course = new HashSet<student_course>();
-            this.groups = new HashSet<group>();
+            this.student_group = new HashSet<student_group>();
         }
     
         public int user_id { get; set; }
         public string code { get; set; }
         public Nullable<System.DateTime> dataob { get; set; }
-        public Nullable<int> group_id { get; set; }
         public System.DateTime create_at { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<student_course> student_course { get; set; }
-        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<group> groups { get; set; }
+        public virtual ICollection<student_group> student_group { get; set; }
+        public virtual user user { get; set; }
     }
 }

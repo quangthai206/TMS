@@ -189,5 +189,23 @@ namespace CNPM.Controllers
             }
             return Json(new { success = false, message = "Đã có lỗi xảy ra" });
         }
+
+        public ActionResult GetCourseMenu()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            int id = user.id;
+            var courses = (from c in db.courses
+                           join s in db.subjects on c.subject_id equals s.id
+                           where c.teacher_id == id
+                           select new CourseViewModel
+                           {
+                               id = c.id,
+                               code = c.code,
+                               subject_id = c.subject_id,
+                               teacher_id = c.teacher_id.Value,
+                               subject_name = s.name
+                           }).ToList();
+            return View(courses);
+        }
     }
 }

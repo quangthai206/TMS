@@ -1,8 +1,10 @@
-﻿@model IEnumerable<CNPM.Models.CourseViewModel>
+﻿@model CNPM.Models.RegisterTopicVM
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "RegisterTopic";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
+
+
 
 <!-- Main Content -->
 <div id="content">
@@ -15,6 +17,12 @@
             <i class="fa fa-bars"></i>
         </button>
 
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Student" )"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li title="@ViewBag.CourseName"><a href="@Url.Action("Course","Student", new { id = ViewBag.courseID })">@ViewBag.CourseCode</a></li>
+            <li><a href="@Url.Action("AllTopics","Student", new { courseID = ViewBag.courseID })">Đăng ký đề tài</a></li>
+            <li class="active">@Model.name</li>
+        </ol>
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -178,66 +186,105 @@
     </nav>
     <!-- End of Topbar -->
     <div class="container-fluid">
-        @if (Model.Count() == 0)
-        {
-            <div>
-                <div style="text-align: center; color: rgba(0,0,0,0.87);font-size: 2rem;font-weight: 500;line-height: 2.8rem; margin-bottom: .8rem;">Bạn không có khóa học nào cần quản lý</div>
-                <div style="text-align: center">Tại đây, bạn sẽ tìm thấy tất cả khóa học mà bạn đang quản lý</div>
+        <div class="row" style="margin-bottom: 10px;">
+            <div class="col-12 text-right">
+                <button class="btn btn-success btn-icon-split" id="createGroup">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                    <span class="text">Tạo nhóm</span>
+                </button>
             </div>
+        </div>
+
+        @if (Model.groups.Count == 0)
+        {
+            <p style="font-size: 30px;text-align: center;font-weight: bold; padding-top: 69px; margin-bottom: 0px">Chưa có nhóm nào đăng ký</p>
+            <p style="text-align: center;font-weight: bold;">Tại đây, bạn có thể tạo nhóm mới hoặc tham gia vào nhóm đã tồn tại trước đó.</p>
         }
         else
         {
             <div class="row">
-                @for (int i = 0; i < Model.Count(); i++)
+                @foreach (var item in Model.groups)
                 {
-                    var course = Model.ElementAt(i);
-                    var class1 = "";
-                    var class2 = "";
-                    int x = i % 4;
-                    if (x == 0)
-                    {
-                        class1 = "border-left-primary";
-                        class2 = "text-primary";
-                    }
-                    else if (x == 1)
-                    {
-                        class1 = "border-left-info";
-                        class2 = "text-info";
-                    }
-                    else if (x == 2)
-                    {
-                        class1 = "border-left-warning";
-                        class2 = "text-warning";
-                    }
-                    else
-                    {
-                        class1 = "border-left-success";
-                        class2 = "text-success";
-                    }
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card @class1 shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold @class2 text-uppercase mb-1">@course.subject_name</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">@course.code</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="@Url.Action("Course","Student", new { id = course.id})">
-                                            <i class="fas fa-sign-in-alt fa-2x text-gray-300"></i>
-                                        </a>
+                    <div class="col-sm-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary" style="text-align: center;">
+                                    @item.name
+                                </h6>
+                            </div>
+                            <div class="card-body" style="padding-bottom: 0px; height: 190px">
+                                <div class="row">
+                                    <label class="col-sm-4 control-label" style="font-weight: bold;">
+                                        Số lượng
+                                    </label>
+                                    <div class="col-sm-8">
+                                        @item.members.Count<span>/5</span>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <label class="col-sm-4 control-label" style="font-weight: bold;">
+                                        Thành viên
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <ul style="padding: 0;list-style-type: none;">
+                                            @foreach (var name in item.members)
+                                            {
+                                                <li>@name</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="@Url.Action("JoinGroup","Student", new { id = item.id})" class="btn btn-info btn-icon-split" style="width: 100%;">
+                                    <span class="text">Tham gia</span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 }
             </div>
         }
+
+        @using (Html.BeginForm("CreateGroup", "Student", new { course_id = ViewBag.courseID, topic_id = Model.topic_id }, FormMethod.Post, new { id = "CreateGroup" }))
+        {
+            <input type="hidden" name="group_name" id="group_name" />
+            @Html.AntiForgeryToken()
+        }
     </div>
 </div>
 
-
-
-
-
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            if (@Model.groups.Count == 3) {
+                $("#createGroup").attr("disabled", "disabled");
+            }
+            $("#createGroup").click(function () {
+                bootbox.prompt({
+                    title: "Tạo nhóm",
+                    placeholder: 'Nhập tên nhóm ở đây...',
+                    buttons: {
+                        confirm: {
+                            label: 'Đồng ý',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Hủy',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        /* result = String containing user input if OK clicked or null if Cancel clicked */
+                        if (result != null) {
+                            $('input[name="group_name"]').val(result);
+                            document.getElementById("CreateGroup").submit();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

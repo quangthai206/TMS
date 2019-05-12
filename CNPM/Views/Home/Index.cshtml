@@ -29,9 +29,12 @@
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 
-    @using (Html.BeginForm("Add", "Home",FormMethod.Post))
+    @using (Html.BeginForm("Add", "Home", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
+        <div class="form-group">
+            <input type="text" class="form-control" name="uEmail" />
+        </div>
         <button type="submit" class="btn btn-default">Submit</button>
     }
 </div>

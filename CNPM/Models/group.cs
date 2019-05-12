@@ -17,9 +17,9 @@ namespace CNPM.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public group()
         {
+            this.student_group = new HashSet<student_group>();
             this.submissions = new HashSet<submission>();
             this.tasks = new HashSet<task>();
-            this.students = new HashSet<student>();
         }
     
         public int id { get; set; }
@@ -29,10 +29,10 @@ namespace CNPM.Models
     
         public virtual topic topic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<student_group> student_group { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<submission> submissions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<task> tasks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<student> students { get; set; }
     }
 }

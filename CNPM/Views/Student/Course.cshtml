@@ -1,8 +1,17 @@
-﻿@model IEnumerable<CNPM.Models.CourseViewModel>
+﻿@using CNPM.Models
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
+
+@*@{
+    int sid = ViewBag.StudentID;
+    int cid = ViewBag.CourseID;
+    var db = new TMSdbEntities();
+    var group = (from sg in db.student_group
+                 join g in db.groups on sg.group_id equals g.id
+                 where sg.student_id == sid && g.course_id == cid
+                 select sg).ToList();
+}*@
 
 <!-- Main Content -->
 <div id="content">
@@ -15,6 +24,10 @@
             <i class="fa fa-bars"></i>
         </button>
 
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Student")"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li class="active" title="@ViewBag.CourseName">@ViewBag.CourseCode</li>
+        </ol>
 
         <!-- Topbar Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -178,66 +191,23 @@
     </nav>
     <!-- End of Topbar -->
     <div class="container-fluid">
-        @if (Model.Count() == 0)
+
+        @*@if (group.Count == 0)
         {
-            <div>
-                <div style="text-align: center; color: rgba(0,0,0,0.87);font-size: 2rem;font-weight: 500;line-height: 2.8rem; margin-bottom: .8rem;">Bạn không có khóa học nào cần quản lý</div>
-                <div style="text-align: center">Tại đây, bạn sẽ tìm thấy tất cả khóa học mà bạn đang quản lý</div>
-            </div>
+            <h1>Hiện tại bạn chưa tham gia nhóm đề tài nào</h1>
+            <h3>Bấm vào đây để đăng ký đề tài</h3>
         }
         else
         {
-            <div class="row">
-                @for (int i = 0; i < Model.Count(); i++)
-                {
-                    var course = Model.ElementAt(i);
-                    var class1 = "";
-                    var class2 = "";
-                    int x = i % 4;
-                    if (x == 0)
-                    {
-                        class1 = "border-left-primary";
-                        class2 = "text-primary";
-                    }
-                    else if (x == 1)
-                    {
-                        class1 = "border-left-info";
-                        class2 = "text-info";
-                    }
-                    else if (x == 2)
-                    {
-                        class1 = "border-left-warning";
-                        class2 = "text-warning";
-                    }
-                    else
-                    {
-                        class1 = "border-left-success";
-                        class2 = "text-success";
-                    }
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card @class1 shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold @class2 text-uppercase mb-1">@course.subject_name</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">@course.code</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="@Url.Action("Course","Student", new { id = course.id})">
-                                            <i class="fas fa-sign-in-alt fa-2x text-gray-300"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
+            foreach (var item in group)
+            {
+                <p>Student ID: @item.student_id</p>
+                <p>Group ID: @item.group_id</p>
+            }
+        }*@
+
+        <a class="btn btn-primary" href="@Url.Action("ManageGroup","Student", new { courseID = ViewBag.CourseID})">Nhóm của tôi</a>
+        <hr />
+        <a class="btn btn-primary" href="@Url.Action("AllTopics","Student", new { courseID = ViewBag.CourseID})">Đăng ký đề tài</a>
     </div>
 </div>
-
-
-
-
-

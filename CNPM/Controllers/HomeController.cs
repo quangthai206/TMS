@@ -68,18 +68,19 @@ namespace CNPM.Controllers
 
             return View();
         }
-        
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task Add()
-        //{
-        //    var user = new user { email = "huyvietnguyen@gmail.com", name = "Student 3", create_at = DateTime.Now, active = true };
-        //    var result = await UserManager.CreateAsync(user, "tms2019");
-        //    if (result.Succeeded)
-        //    {
-        //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-        //    }
-        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Add(string uEmail)
+        {
+            var user = new user { email = uEmail, name = "Student 3", create_at = DateTime.Now, active = true };
+            var result = await UserManager.CreateAsync(user, "tms2019");
+            if (result.Succeeded)
+            {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

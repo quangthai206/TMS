@@ -19,12 +19,10 @@ namespace CNPM.Models
             : base("name=TMSdbEntities")
         {
         }
-
         public static TMSdbEntities Create()
         {
             return new TMSdbEntities();
         }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -34,13 +32,15 @@ namespace CNPM.Models
         public virtual DbSet<comment> comments { get; set; }
         public virtual DbSet<course> courses { get; set; }
         public virtual DbSet<group> groups { get; set; }
-        public virtual DbSet<student> students { get; set; }
         public virtual DbSet<student_course> student_course { get; set; }
+        public virtual DbSet<student_group> student_group { get; set; }
         public virtual DbSet<subject> subjects { get; set; }
         public virtual DbSet<submission> submissions { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<task> tasks { get; set; }
         public virtual DbSet<teacher> teachers { get; set; }
         public virtual DbSet<topic> topics { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<student> students { get; set; }
     }
 }

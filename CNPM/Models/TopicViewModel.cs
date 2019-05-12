@@ -18,5 +18,7 @@ namespace CNPM.Models
         public string description { get; set; }
         [Display(Name = "File chi tiết")]
         public string file_detail { get; set; }
+        public int totalGroup { get; set; }
+    
     }
 }
